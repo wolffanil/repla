@@ -1,0 +1,304 @@
+////////////// One
+
+//// 1
+
+<button id="fillListButton">Заполнить список</button>
+<ul id="list"></ul>
+
+// JavaScript
+document.getElementById('fillListButton').addEventListener('click', function() {
+  const array = ['Элемент 1', 'Элемент 2', 'Элемент 3']; // ваш массив
+  const list = document.getElementById('list');
+  
+  array.forEach(function(item) {
+    const li = document.createElement('li');
+    li.appendChild(document.createTextNode(item));
+    list.appendChild(li);
+  });
+});
+
+//// 2
+
+<input type="date" id="birthdateInput">
+<table id="birthdaysTable">
+  <tr>
+    <th>Дата рождения</th>
+    <th>День недели</th>
+  </tr>
+</table>
+
+// JavaScript
+document.getElementById('birthdateInput').addEventListener('input', function() {
+  const inputDate = new Date(this.value); // получаем введенную дату рождения из input
+  const table = document.getElementById('birthdaysTable');
+  
+  // очищаем таблицу перед добавлением новых данных
+  table.innerHTML = '<tr><th>Дата рождения</th><th>День недели</th></tr>';
+  
+  // добавляем даты рождения и соответствующие дни недели в таблицу
+  for (let i = 0; i < 5; i++) { // например, покажем ближайшие 5 дней рождения
+    const birthday = new Date(inputDate);
+    birthday.setFullYear(new Date().getFullYear() + i); // устанавливаем год рождения
+    const row = table.insertRow(-1);
+    const cell1 = row.insertCell(0);
+    const cell2 = row.insertCell(1);
+    const options = { weekday: 'long' };
+    cell1.innerHTML = birthday.toLocaleDateString('ru-RU');
+    cell2.innerHTML = birthday.toLocaleDateString('ru-RU', options);
+  }
+});
+
+///// 3
+
+<input type="checkbox" id="checkbox1" checked>
+<input type="checkbox" id="checkbox2">
+<button id="toggleButton">Изменить состояние</button>
+
+<!-- JavaScript -->
+document.getElementById('toggleButton').addEventListener('click', function() {
+  const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+  checkboxes.forEach(function(checkbox) {
+    checkbox.checked = !checkbox.checked;
+  });
+});
+
+//// 4
+
+<table id="myTable">
+  <tr>
+    <td>Ячейка 1</td>
+    <td>Ячейка 2</td>
+    <td>Ячейка 3</td>
+  </tr>
+  <tr>
+    <td>Ячейка 4</td>
+    <td>Ячейка 5</td>
+    <td>Ячейка 6</td>
+  </tr>
+</table>
+<button id="colorButton">Покрасить ячейку</button>
+
+<!-- JavaScript -->
+document.getElementById('colorButton').addEventListener('click', function() {
+  const table = document.getElementById('myTable');
+  const cells = table.getElementsByTagName('td');
+  const uncoloredCells = [...cells].filter(cell => cell.style.backgroundColor === '');
+  if (uncoloredCells.length > 0) {
+    const randomCell = uncoloredCells[Math.floor(Math.random() * uncoloredCells.length)];
+    randomCell.style.backgroundColor = 'red';
+  }
+});
+
+
+///////////////////// Two
+
+//1
+
+<button id="removeButton">Удалить случайный пункт</button>
+<ul id="myList">
+  <li>Пункт 1</li>
+  <li>Пункт 2</li>
+  <li>Пункт 3</li>
+</ul>
+
+<!-- JavaScript -->
+document.getElementById('removeButton').addEventListener('click', function() {
+  const list = document.getElementById('myList');
+  const items = list.getElementsByTagName('li');
+  if (items.length > 0) {
+    const randomIndex = Math.floor(Math.random() * items.length);
+    list.removeChild(items[randomIndex]);
+  }
+});
+
+/// 2
+
+<p id="sumDisplay">Сумма: 0</p>
+<div id="inputsContainer"></div>
+<button id="addInputButton">Добавить input</button>
+
+<!-- JavaScript -->
+document.getElementById('addInputButton').addEventListener('click', function() {
+  const inputsContainer = document.getElementById('inputsContainer');
+  const input = document.createElement('input');
+  input.type = 'number';
+  input.addEventListener('input', updateSum);
+  inputsContainer.appendChild(input);
+});
+
+function updateSum() {
+  const inputs = document.querySelectorAll('#inputsContainer input');
+  let sum = 0;
+  inputs.forEach(function(input) {
+    sum += Number(input.value) || 0;
+  });
+  document.getElementById('sumDisplay').textContent = 'Сумма: ' + sum;
+}
+
+//// 3
+
+function generateUniqueRandomNumbers(min, max, n) {
+  if (max - min + 1 < n) {
+    return 'Невозможно создать массив из уникальных чисел заданной длины в данном диапазоне';
+  }
+  
+  const uniqueNumbers = new Set();
+  
+  while (uniqueNumbers.size < n) {
+    const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
+    uniqueNumbers.add(randomNumber);
+  }
+  
+  return Array.from(uniqueNumbers);
+}
+
+// Пример использования:
+const resultArray = generateUniqueRandomNumbers(1, 10, 5);
+console.log(resultArray);
+
+/// 4
+
+<div id="cardImages">
+  <!-- Изображения карт будут добавлены сюда -->
+</div>
+<button id="showCardsButton">Показать карты</button>
+
+<!-- JavaScript -->
+document.getElementById('showCardsButton').addEventListener('click', function() {
+  const cardImagesContainer = document.getElementById('cardImages');
+  cardImagesContainer.innerHTML = ''; // Очищаем контейнер от предыдущих карт, если они были
+  
+  const suits = ['hearts', 'diamonds', 'clubs', 'spades'];
+  const values = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
+
+  for (let i = 0; i < 6; i++) {
+    const randomSuit = suits[Math.floor(Math.random() * suits.length)];
+    const randomValue = values[Math.floor(Math.random() * values.length)];
+
+    const img = document.createElement('img');
+    img.src = `images/${randomValue}_of_${randomSuit}.png`; // Путь к изображениям карт
+    cardImagesContainer.appendChild(img);
+  }
+});
+
+
+////////////// Four
+
+/// 1
+
+<button id="fillListButton">Заполнить список</button>
+<ul id="numberList"></ul>
+
+<!-- JavaScript -->
+document.getElementById('fillListButton').addEventListener('click', function() {
+  const list = document.getElementById('numberList');
+  list.innerHTML = ''; // Очищаем список перед добавлением новых чисел
+  for (let i = 1; i <= 10; i++) {
+    const listItem = document.createElement('li');
+    listItem.appendChild(document.createTextNode(i));
+    list.appendChild(listItem);
+  }
+});
+
+/// 2
+
+<input type="number" id="input1">
+<input type="number" id="input2">
+<input type="number" id="input3">
+<button id="calculateSumButton">Найти сумму</button>
+<p id="sumDisplay">Сумма: </p>
+
+<!-- JavaScript -->
+document.getElementById('calculateSumButton').addEventListener('click', function() {
+  const input1Value = Number(document.getElementById('input1').value) || 0;
+  const input2Value = Number(document.getElementById('input2').value) || 0;
+  const input3Value = Number(document.getElementById('input3').value) || 0;
+  const sum = input1Value + input2Value + input3Value;
+  document.getElementById('sumDisplay').textContent = 'Сумма: ' + sum;
+});
+
+/// 3
+
+<select id="daySelect"></select>
+<select id="monthSelect">
+  <option value="1">Январь</option>
+  <option value="2">Февраль</option>
+  <option value="3">Март</option>
+  <option value="4">Апрель</option>
+  <option value="5">Май</option>
+  <option value="6">Июнь</option>
+  <option value="7">Июль</option>
+  <option value="8">Август</option>
+  <option value="9">Сентябрь</option>
+  <option value="10">Октябрь</option>
+  <option value="11">Ноябрь</option>
+  <option value="12">Декабрь</option>
+</select>
+<select id="yearSelect"></select>
+
+<!-- JavaScript -->
+// Создаем дни месяца
+const daySelect = document.getElementById('daySelect');
+for (let i = 1; i <= 31; i++) {
+  const option = document.createElement('option');
+  option.value = i;
+  option.text = i;
+  daySelect.add(option);
+}
+
+// Создаем года за предыдущий и следующий месяцы
+const monthSelect = document.getElementById('monthSelect');
+const yearSelect = document.getElementById('yearSelect');
+monthSelect.addEventListener('change', function() {
+  const selectedMonth = parseInt(monthSelect.value, 10);
+  const currentYear = new Date().getFullYear();
+  const options = yearSelect.options;
+  
+  // Удаляем предыдущие варианты
+  for (let i = options.length - 1; i >= 0; i--) {
+    options[i].remove();
+  }
+  
+  // Добавляем года за предыдущий и следующий месяцы
+  const previousYearOption = document.createElement('option');
+  const nextYearOption = document.createElement('option');
+  previousYearOption.value = currentYear - (selectedMonth === 1 ? 1 : 0);
+  previousYearOption.text = currentYear - (selectedMonth === 1 ? 1 : 0);
+  yearSelect.add(previousYearOption);
+  nextYearOption.value = currentYear + (selectedMonth === 12 ? 1 : 0);
+  nextYearOption.text = currentYear + (selectedMonth === 12 ? 1 : 0);
+  yearSelect.add(nextYearOption);
+});
+
+//// 4
+
+<table id="myTable">
+  <tr>
+    <td>Ячейка 1</td>
+    <td>Ячейка 2</td>
+    <td>Ячейка 3</td>
+  </tr>
+  <tr>
+    <td>Ячейка 4</td>
+    <td>Ячейка 5</td>
+    <td>Ячейка 6</td>
+  </tr>
+</table>
+
+<!-- JavaScript -->
+document.getElementById('myTable').addEventListener('click', function(e) {
+  const cell = e.target;
+  const row = cell.parentElement.rowIndex + 1; // добавляем 1, так как индексы начинаются с 0
+  const column = cell.cellIndex + 1; // также добавляем 1, так как индексы начинаются с 0
+  cell.textContent = 'Ряд: ' + row + ', Колонка: ' + column;
+});
+
+
+
+
+
+
+
+
+
+

@@ -296,9 +296,156 @@ document.getElementById('myTable').addEventListener('click', function(e) {
 
 
 
+////////////////// Three
+
+/// 1
+
+<button id="myButton">Add Item</button>
+<ul id="myList">
+  <li>Item 1</li>
+  <li>Item 2</li>
+</ul>
+
+const button = document.getElementById("myButton");
+const list = document.getElementById("myList");
+
+button.addEventListener("click", function() {
+  const newItem = document.createElement("li");
+  const itemNumber = list.children.length + 1;
+  newItem.innerHTML = `Item ${itemNumber}`;
+  list.appendChild(newItem);
+});
+
+/// 2
 
 
+<input type="text" id="input1">
+<input type="text" id="input2">
+<button id="compose">Compare</button>
+<p id="result"></p>
+
+const resultEl = document.getElementById("result");
+const input1El = document.getElementById("input1");
+const input2El = document.getElementById("input2");
+const composeBtn = document.getElementById("compose");
+
+composeBtn.addEventListener("click", function() {
+  const values1 = input1El.value.toLowerCase().split(",").map(Number);
+  const values2 = input2El.value.toLowerCase().split(",").map(Number);
+
+  const common = values1.filter(x => values2.includes(x)).map(Number);
+  const difference1 = values1.filter(x => !values2.includes(x)).map(Number);
+  const difference2 = values2.filter(x => !values1.includes(x)).map(Number);
+
+  resultEl.innerHTML = `Common elements: ${common}<br> Difference in first input: ${difference1}<br> Difference in second input: ${difference2}`;
+});
+
+//////// 4
 
 
+<select id="select">
+  <option value="option1">Option 1</option>
+  <option value="option2">Option 2</option>
+  <option value="option3">Option 3</option>
+</select>
+
+<input type="radio" id="radio1" name="radio-group">
+<label for="radio1">Option 1</label>
+
+<input type="radio" id="radio2" name="radio-group">
+<label for="radio2">Option 2</label>
+
+<input type="radio" id="radio3" name="radio-group">
+<label for="radio3">Option 3</label>
+
+const selectEl = document.getElementById("select");
+const radioElements = document.getElementsByName("radio-group");
+
+selectEl.addEventListener("change", function() {
+  for (let radio of radioElements) {
+    radio.checked = false;
+    const radioValue = radio.value;
+    if (radioValue === selectEl.value) {
+      radio.checked = true;
+      break;
+    }
+  }
+});
+
+/////////// Five
+
+//// 2
+
+<input type="text" id="numbersInput">
+<p id="sumDisplay"></p>
+
+const numbersInput = document.getElementById('numbersInput');
+const sumDisplay = document.getElementById('sumDisplay');
+
+numbersInput.addEventListener('input', function() {
+  const numbers = numbersInput.value.split(',').map(Number);
+  const sum = numbers.reduce((acc, curr) => acc + curr, 0);
+  sumDisplay.textContent = `Сумма чисел: ${sum}`;
+});
+
+/// 3
+
+<p id="text">Текст, который будет окрашен</p>
+<button onclick="changeColors()">Окрасить</button>
+
+function changeColors() {
+  const text = document.getElementById('text');
+  const letters = text.textContent.split('');
+  text.textContent = ''; // Очистить абзац
+
+  letters.forEach((letter) => {
+    const span = document.createElement('span');
+    span.textContent = letter;
+    span.style.color = getRandomColor();
+    text.appendChild(span);
+  });
+}
+
+function getRandomColor() {
+  const letters = '0123456789ABCDEF';
+  let color = '#';
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+}
+
+//// 4
+
+<table id="myTable">
+  <tr>
+    <td>1.1</td>
+    <td>1.2</td>
+    <td>1.3</td>
+  </tr>
+  <tr>
+    <td>2.1</td>
+    <td>2.2</td>
+    <td>2.3</td>
+  </tr>
+  <tr>
+    <td>3.1</td>
+    <td>3.2</td>
+    <td>3.3</td>
+  </tr>
+</table>
 
 
+const table = document.getElementById('myTable');
+table.addEventListener('click', function(event) {
+  const cell = event.target;
+  const columnIndex = cell.cellIndex;
+
+  if (columnIndex !== -1) {
+    const rows = table.rows;
+
+    for (let i = 0; i < rows.length; i++) {
+      rows[i].cells[columnIndex].style.backgroundColor = 'red';
+    }
+  }
+});
